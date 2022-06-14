@@ -1,35 +1,73 @@
-cmake_minimum_required(VERSION 2.6)
-project(uMario)
+cmake_minimum_required(VERSION 2.82)
 
-# Use our modified FindSDL2* modules
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${uMario_SOURCE_DIR}/cmake")
-set(BIN_DIR ${uMario_SOURCE_DIR}/bin)
+file(GLOB_RECURSE uMario_SOURCES "uNext/*.cpp")
+add_executable (${CMAKE_PROJECT_NAME} ${uMario_SOURCES})
 
-# Bump up warning levels appropriately for clang, gcc & msvc and build in debug mode
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11")
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2")
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-	if (CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
-		string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-	else()
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-	endif()
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  if(DEFINED ENV{VITASDK})
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
+  else()
+    message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
+  endif()
 endif()
 
-find_package(SDL2 REQUIRED)
-find_package(SDL2_Image REQUIRED)
-find_package(SDL2_Mixer REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR})
+project(uMario)
+include("${VITASDK}/share/vita.cmake" REQUIRED)
 
-file(COPY uNext/files DESTINATION .)
+set(VITA_APPNAME  "uMario")
+set(VITA_TITLEID  "HMRL00002")
+set(VITA_VERSION  "01.00")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread -std=c++11")
+set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
+
+# Use our modified FindSDL2* modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} cmake)
+
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+	"$ENV{VITASDK}/arm-vita-eabi/include/"
+	"$ENV{VITASDK}/arm-vita-eabi/include/SDL2"
+)
 
 include_directories(uNext)
 
-file(GLOB_RECURSE uMario_SOURCES "uNext/*.cpp")
-add_executable (uMario ${uMario_SOURCES})
+target_link_libraries(${CMAKE_PROJECT_NAME}
+	SDL2_image
+	SDL2_mixer
+	SDL2
 
-target_link_libraries(uMario ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY})
+	stdc++
+	webp
+	pthread
+	png16
+	freetype
+	vorbisfile
+	vorbis
+	ogg
+	jpeg
+	z
+	m
+	modplug
+	mikmod
+	mpg123
+	FLAC
 
-install(TARGETS uMario RUNTIME DESTINATION ${BIN_DIR})
+	SceAudio_stub
+	SceAudioIn_stub
+	SceCommonDialog_stub
+	SceCtrl_stub
+	SceDisplay_stub
+	SceGxm_stub
+	SceHid_stub
+	SceSysmodule_stub
+	SceTouch_stub
+	SceMotion_stub
+)
+
+vita_create_self(${CMAKE_PROJECT_NAME}.self ${CMAKE_PROJECT_NAME})
+
+vita_create_vpk(${CMAKE_PROJECT_NAME}.vpk ${VITA_TITLEID} ${CMAKE_PROJECT_NAME}.self
+  VERSION ${VITA_VERSION}
+  NAME ${VITA_APPNAME}
+  FILE uNext/files files
+)
