@@ -1,44 +1,13 @@
-# uMario_Jakowski
+# uMario_Vita
 uMario C++/SDL2 Game by Łukasz Jakowski
 
-Author: Łukasz Jakowski
+Port to PS Vita by Kirill Petrov aka Hammerill
 
-WWW: http://lukaszjakowski.pl
-Email: jakowskidev@gmail.com
+!!! NOT FINISHED, CAN'T BUILD AND RUN ON VITA RIGHT NOW !!!
 
-EXE and DLL - Download: http://lukaszjakowski.pl/DL/uMario.zip
-
-YouTube video: https://www.youtube.com/watch?v=jya5He7KFsE
-
-
-It is my first game made in C++.
-
-Visual Studio 2012
-SDL Tutorials which I have used:
-http://lazyfoo.net/tutorials/SDL/index.php
-
-
-My Google Play account: https://play.google.com/store/apps/dev?id=4635849298843013993
-
-
-## Build Pre-requisites
-
-FreeBSD:
-
-    $ pkg install cmake sdl2 sdl2_image sdl2_mixer
-
-OS X (brew):
-
-    $ brew install cmake sdl2 sdl2_image sdl2_mixer
-
-## Building and running
-
-    $ make build run
-
-    # or
-
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make
-    $ ./uMario
+## Build and run
+1. Install [VITASDK](https://vitasdk.org/).
+2. Clone repo `git clone https://github.com/Hammerill/uMario_Vita && cd uMario_Vita`.
+3. Build `cmake . && make` (if it throws an error, try typing this again).
+4. "uMario_Vita.vpk" file should appear. Copy this file to your hacked PS Vita and install via VitaShell.
+5. Bubble "uMario" will appear, you can now launch this game.
