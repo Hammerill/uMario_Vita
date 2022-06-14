@@ -3,7 +3,7 @@ uMario C++/SDL2 Game by Łukasz Jakowski.
 
 Port to PS Vita by Cyril Petrov aka Hammerill.
 
-!!! NOT FINISHED, CAN'T BUILD AND RUN ON VITA RIGHT NOW !!!
+!!! NOT FINISHED, NO CONTROLS SUPPORT !!!
 
 ## Build and run
 1. Install [VITASDK](https://vitasdk.org/).
