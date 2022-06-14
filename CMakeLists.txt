@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.82)
 
 file(GLOB_RECURSE uMario_SOURCES "uNext/*.cpp")
-add_executable (${CMAKE_PROJECT_NAME} ${uMario_SOURCES})
+add_executable(${CMAKE_PROJECT_NAME} ${uMario_SOURCES})
 
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   if(DEFINED ENV{VITASDK})
@@ -20,9 +20,6 @@ set(VITA_VERSION  "01.00")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread -std=c++11")
 set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
-
-# Use our modified FindSDL2* modules
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} cmake)
 
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 	"$ENV{VITASDK}/arm-vita-eabi/include/"
