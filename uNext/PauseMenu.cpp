@@ -5,7 +5,7 @@
 /* ******************************************** */
 
 PauseMenu::PauseMenu(void) {
-	rPause.x = 220;
+	rPause.x = 220 + 80; //+vita width/2
 	rPause.y = 140;
 	rPause.w = 360;
 	rPause.h = 142;

@@ -145,7 +145,14 @@ void CCore::InputMenu() {
 	SceCtrlData ctrl;
 	sceCtrlPeekBufferPositive(0, &ctrl, 1);
 
-	if (!(ctrl.buttons & (SCE_CTRL_DOWN | SCE_CTRL_UP | SCE_CTRL_CROSS | SCE_CTRL_CIRCLE | SCE_CTRL_LEFT | SCE_CTRL_RIGHT))) 
+	if (!(ctrl.buttons & (	SCE_CTRL_DOWN | 
+							SCE_CTRL_UP | 
+							SCE_CTRL_CROSS | 
+							SCE_CTRL_START | 
+							SCE_CTRL_SELECT | 
+							SCE_CTRL_CIRCLE | 
+							SCE_CTRL_LEFT | 
+							SCE_CTRL_RIGHT))) 
 	{
 		keyMenuPressed = false;
 	}
@@ -171,7 +178,7 @@ void CCore::InputMenu() {
 			keyMenuPressed = true;
 		}
 	}
-	if (ctrl.buttons & SCE_CTRL_CIRCLE)
+	if (ctrl.buttons & (SCE_CTRL_START | SCE_CTRL_SELECT | SCE_CTRL_CIRCLE))
 	{
 		if(!keyMenuPressed) {
 			CCFG::getMM()->escape();
@@ -275,12 +282,15 @@ void CCore::InputPlayer() {
 		}
 	}
 
-	if (ctrl.buttons & SCE_CTRL_START)
+	if (ctrl.buttons & (SCE_CTRL_START | SCE_CTRL_SELECT))
 	{
-		if(!keyMenuPressed) 
+		if(!keyMenuPressed && CCFG::getMM()->getViewID() == CCFG::getMM()->eGame)
 		{
-			CCFG::getMM()->enter();
-			keyMenuPressed = true;
+				CCFG::getMM()->resetActiveOptionID(CCFG::getMM()->ePasue);
+				CCFG::getMM()->setViewID(CCFG::getMM()->ePasue);
+				CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cPASUE);
+				CCFG::getMusic()->PauseMusic();
+				keyMenuPressed = true;
 		}
 	}
 	else

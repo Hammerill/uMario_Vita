@@ -91,11 +91,11 @@ void OptionsMenu::Draw(SDL_Renderer* rR) {
 		SDL_RenderDrawRect(rR, &rVolumeBG);
 	}
 
-	CCFG::getText()->Draw(rR, CCFG::getKeyString(CCFG::keyIDA), 185, 89, 16, activeMenuOption == 1 ? 255 : 90, activeMenuOption == 1 ? 255 : 90, activeMenuOption == 1 ? 255 : 90);
-	CCFG::getText()->Draw(rR, CCFG::getKeyString(CCFG::keyIDS), 185, 113, 16, activeMenuOption == 2 ? 255 : 90, activeMenuOption == 2 ? 255 : 90, activeMenuOption == 2 ? 255 : 90);
-	CCFG::getText()->Draw(rR, CCFG::getKeyString(CCFG::keyIDD), 185, 137, 16, activeMenuOption == 3 ? 255 : 90, activeMenuOption == 3 ? 255 : 90, activeMenuOption == 3 ? 255 : 90);
-	CCFG::getText()->Draw(rR, CCFG::getKeyString(CCFG::keyIDSpace), 185, 161, 16, activeMenuOption == 4 ? 255 : 90, activeMenuOption == 4 ? 255 : 90, activeMenuOption == 4 ? 255 : 90);
-	CCFG::getText()->Draw(rR, CCFG::getKeyString(CCFG::keyIDShift), 185, 185, 16, activeMenuOption == 5 ? 255 : 90, activeMenuOption == 5 ? 255 : 90, activeMenuOption == 5 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "LEFT"/*CCFG::getKeyString(CCFG::keyIDA)*/, 185, 89, 16, activeMenuOption == 1 ? 255 : 90, activeMenuOption == 1 ? 255 : 90, activeMenuOption == 1 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "DOWN"/*CCFG::getKeyString(CCFG::keyIDS)*/, 185, 113, 16, activeMenuOption == 2 ? 255 : 90, activeMenuOption == 2 ? 255 : 90, activeMenuOption == 2 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "RIGHT"/*CCFG::getKeyString(CCFG::keyIDD)*/, 185, 137, 16, activeMenuOption == 3 ? 255 : 90, activeMenuOption == 3 ? 255 : 90, activeMenuOption == 3 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "CROSS"/*CCFG::getKeyString(CCFG::keyIDSpace)*/, 185, 161, 16, activeMenuOption == 4 ? 255 : 90, activeMenuOption == 4 ? 255 : 90, activeMenuOption == 4 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "SQUARE"/*CCFG::getKeyString(CCFG::keyIDShift)*/, 185, 185, 16, activeMenuOption == 5 ? 255 : 90, activeMenuOption == 5 ? 255 : 90, activeMenuOption == 5 ? 255 : 90);
 
 	CCFG::getText()->Draw(rR, CCFG::canMoveBackward ? "TRUE" : "FALSE", 357, 209, 16, activeMenuOption == 6 ? 255 : 90, activeMenuOption == 6 ? 255 : 90, activeMenuOption == 6 ? 255 : 90);
 
@@ -129,7 +129,7 @@ void OptionsMenu::enter() {
 			CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cCOIN);
 			break;
 		case 1: case 2: case 3: case 4: case 5:
-			inSetKey = true;
+			//inSetKey = true; //SORRY FOR THAT. YOU CAN ALSO MAP YOUR KEYS MANUALLY WITH SOME PLUGINS! (cuz u have hacked vita, right?)
 			break;
 		case 6:
 			CCFG::canMoveBackward = !CCFG::canMoveBackward;
