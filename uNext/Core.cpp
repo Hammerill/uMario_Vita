@@ -5,6 +5,10 @@
 #include "Text.h"
 #include "SDL_mixer.h"
 
+#include <psp2/kernel/processmgr.h>
+#include <psp2/ctrl.h>
+#include <psp2/touch.h>
+
 /* ******************************************** */
 
 Map* CCore::oMap = new Map();
@@ -24,6 +28,8 @@ bool CCore::keyShift = false;
 bool CCore::keyAPressed = false;
 bool CCore::keyDPressed = false;
 
+SceTouchData touchV[SCE_TOUCH_PORT_MAX_NUM];
+
 CCore::CCore(void) {
 	this->quitGame = false;
 	this->iFPS = 0;
@@ -32,7 +38,12 @@ CCore::CCore(void) {
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO);
 	
-	window = SDL_CreateWindow("uMario - www.LukaszJakowski.pl", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, CCFG::GAME_WIDTH, CCFG::GAME_HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("uMario port by Hammerill", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, CCFG::GAME_WIDTH, CCFG::GAME_HEIGHT, SDL_WINDOW_SHOWN);
+
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
+	sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
+
+	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG);
 
 	if(window == NULL) {
 		quitGame = true;
@@ -131,61 +142,62 @@ void CCore::Input() {
 }
 
 void CCore::InputMenu() {
-	if(mainEvent->type == SDL_KEYDOWN) {
-		CCFG::getMM()->setKey(mainEvent->key.keysym.sym);
+	SceCtrlData ctrl;
+	sceCtrlPeekBufferPositive(0, &ctrl, 1);
 
-		switch(mainEvent->key.keysym.sym) {
-			case SDLK_s: case SDLK_DOWN:
-				if(!keyMenuPressed) {
-					CCFG::getMM()->keyPressed(2);
-					keyMenuPressed = true;
-				}
-				break;
-			case SDLK_w: case SDLK_UP:
-				if(!keyMenuPressed) {
-					CCFG::getMM()->keyPressed(0);
-					keyMenuPressed = true;
-				}
-				break;
-			case SDLK_KP_ENTER: case SDLK_RETURN:
-				if(!keyMenuPressed) {
-					CCFG::getMM()->enter();
-					keyMenuPressed = true;
-				}
-				break;
-			case SDLK_ESCAPE:
-				if(!keyMenuPressed) {
-					CCFG::getMM()->escape();
-					keyMenuPressed = true;
-				}
-				break;
-			case SDLK_LEFT: case SDLK_d:
-				if(!keyMenuPressed) {
-					CCFG::getMM()->keyPressed(3);
-					keyMenuPressed = true;
-				}
-				break;
-			case SDLK_RIGHT: case SDLK_a:
-				if(!keyMenuPressed) {
-					CCFG::getMM()->keyPressed(1);
-					keyMenuPressed = true;
-				}
-				break;
-		}
+	if (!(ctrl.buttons & (SCE_CTRL_DOWN | SCE_CTRL_UP | SCE_CTRL_CROSS | SCE_CTRL_CIRCLE | SCE_CTRL_LEFT | SCE_CTRL_RIGHT))) 
+	{
+		keyMenuPressed = false;
 	}
 
-	if(mainEvent->type == SDL_KEYUP) {
-		switch(mainEvent->key.keysym.sym) {
-			case SDLK_s: case SDLK_DOWN: case SDLK_w: case SDLK_UP: case SDLK_KP_ENTER: case SDLK_RETURN: case SDLK_ESCAPE: case SDLK_a: case SDLK_RIGHT: case SDLK_LEFT: case SDLK_d:
-				keyMenuPressed = false;
-				break;
-			default:
-				break;
+	if (ctrl.buttons & SCE_CTRL_DOWN)
+	{
+		if(!keyMenuPressed) {
+			CCFG::getMM()->keyPressed(2);
+			keyMenuPressed = true;
+		}
+	}
+	if (ctrl.buttons & SCE_CTRL_UP)
+	{
+		if(!keyMenuPressed) {
+			CCFG::getMM()->keyPressed(0);
+			keyMenuPressed = true;
+		}
+	}
+	if (ctrl.buttons & SCE_CTRL_CROSS)
+	{
+		if(!keyMenuPressed) {
+			CCFG::getMM()->enter();
+			keyMenuPressed = true;
+		}
+	}
+	if (ctrl.buttons & SCE_CTRL_CIRCLE)
+	{
+		if(!keyMenuPressed) {
+			CCFG::getMM()->escape();
+			keyMenuPressed = true;
+		}
+	}
+	if (ctrl.buttons & SCE_CTRL_LEFT)
+	{
+		if(!keyMenuPressed) {
+			CCFG::getMM()->keyPressed(3);
+			keyMenuPressed = true;
+		}
+	}
+	if (ctrl.buttons & SCE_CTRL_RIGHT)
+	{
+		if(!keyMenuPressed) {
+			CCFG::getMM()->keyPressed(1);
+			keyMenuPressed = true;
 		}
 	}
 }
 
 void CCore::InputPlayer() {
+	SceCtrlData ctrl;
+	sceCtrlPeekBufferPositive(0, &ctrl, 1);
+
 	if(mainEvent->type == SDL_WINDOWEVENT) {
 		switch(mainEvent->window.event) {
 			case SDL_WINDOWEVENT_FOCUS_LOST:
@@ -197,97 +209,83 @@ void CCore::InputPlayer() {
 		}
 	}
 
-	if(mainEvent->type == SDL_KEYUP) {
-		if(mainEvent->key.keysym.sym == CCFG::keyIDD) {
-				if(firstDir) {
-					firstDir = false;
-				}
+	if (ctrl.buttons & SCE_CTRL_RIGHT)
+	{
+		keyDPressed = true;
+		if (!keyAPressed) firstDir = true;
+	}
+	else
+	{
+		keyDPressed = false;
+		if (firstDir) firstDir = false;
+	}
 
-				keyDPressed = false;
-			}
+	if (ctrl.buttons & SCE_CTRL_DOWN)
+	{
+		if(!keyS)
+		{
+			keyS = true;
+			if(!oMap->getUnderWater() && !oMap->getPlayer()->getInLevelAnimation()) oMap->getPlayer()->setSquat(true);
+		}
+	}
+	else
+	{
+		oMap->getPlayer()->setSquat(false);
+		keyS = false;
+	}
 
-			if(mainEvent->key.keysym.sym == CCFG::keyIDS) {
-				oMap->getPlayer()->setSquat(false);
-				keyS = false;
-			}
-		
-			if(mainEvent->key.keysym.sym == CCFG::keyIDA) {
-				if(!firstDir) {
-					firstDir = true;
-				}
+	if (ctrl.buttons & SCE_CTRL_LEFT)
+	{
+		keyAPressed = true;
+		if (!firstDir) firstDir = false;
+	}
+	else
+	{
+		keyAPressed = false;
+		if (!keyDPressed) firstDir = true;
+	}
 
-				keyAPressed = false;
-			}
-		
-			if(mainEvent->key.keysym.sym == CCFG::keyIDSpace) {
-				CCFG::keySpace = false;
-			}
-		
-			if(mainEvent->key.keysym.sym == CCFG::keyIDShift) {
-				if(keyShift) {
-					oMap->getPlayer()->resetRun();
-					keyShift = false;
-				}
-			}
-		switch(mainEvent->key.keysym.sym) {
-			case SDLK_KP_ENTER: case SDLK_RETURN: case SDLK_ESCAPE:
-				keyMenuPressed = false;
-				break;
+	if (ctrl.buttons & SCE_CTRL_CROSS)
+	{
+		if(!CCFG::keySpace) 
+		{
+			oMap->getPlayer()->jump();
+			CCFG::keySpace = true;
+		}
+	}
+	else
+	{
+		CCFG::keySpace = false;
+	}
+
+	if (ctrl.buttons & SCE_CTRL_SQUARE)
+	{
+		if(!keyShift) 
+		{
+			oMap->getPlayer()->startRun();
+			keyShift = true;
+		}
+	}
+	else
+	{
+		if(keyShift) 
+		{
+			oMap->getPlayer()->resetRun();
+			keyShift = false;
 		}
 	}
 
-	if(mainEvent->type == SDL_KEYDOWN) {
-		if(mainEvent->key.keysym.sym == CCFG::keyIDD) {
-			keyDPressed = true;
-			if(!keyAPressed) {
-				firstDir = true;
-			}
+	if (ctrl.buttons & SCE_CTRL_START)
+	{
+		if(!keyMenuPressed) 
+		{
+			CCFG::getMM()->enter();
+			keyMenuPressed = true;
 		}
-
-		if(mainEvent->key.keysym.sym == CCFG::keyIDS) {
-			if(!keyS) {
-				keyS = true;
-				if(!oMap->getUnderWater() && !oMap->getPlayer()->getInLevelAnimation()) oMap->getPlayer()->setSquat(true);
-			}
-		}
-		
-		if(mainEvent->key.keysym.sym == CCFG::keyIDA) {
-			keyAPressed = true;
-			if(!keyDPressed) {
-				firstDir = false;
-			}
-		}
-		
-		if(mainEvent->key.keysym.sym == CCFG::keyIDSpace) {
-			if(!CCFG::keySpace) {
-				oMap->getPlayer()->jump();
-				CCFG::keySpace = true;
-			}
-		}
-		
-		if(mainEvent->key.keysym.sym == CCFG::keyIDShift) {
-			if(!keyShift) {
-				oMap->getPlayer()->startRun();
-				keyShift = true;
-			}
-		}
-
-		switch(mainEvent->key.keysym.sym) {
-			case SDLK_KP_ENTER: case SDLK_RETURN:
-				if(!keyMenuPressed) {
-					CCFG::getMM()->enter();
-					keyMenuPressed = true;
-				}
-			case SDLK_ESCAPE:
-				if(!keyMenuPressed && CCFG::getMM()->getViewID() == CCFG::getMM()->eGame) {
-					CCFG::getMM()->resetActiveOptionID(CCFG::getMM()->ePasue);
-					CCFG::getMM()->setViewID(CCFG::getMM()->ePasue);
-					CCFG::getMusic()->PlayChunk(CCFG::getMusic()->cPASUE);
-					CCFG::getMusic()->PauseMusic();
-					keyMenuPressed = true;
-				}
-				break;
-		}
+	}
+	else
+	{
+		keyMenuPressed = false;
 	}
 
 	if(keyAPressed) {
@@ -314,41 +312,17 @@ void CCore::InputPlayer() {
 }
 
 void CCore::MouseInput() {
-	switch(mainEvent->type) {
-		case SDL_MOUSEBUTTONDOWN: {
-			switch (mainEvent->button.button) {
-				case SDL_BUTTON_LEFT:
-					mouseLeftPressed = true;
-					break;
-				case SDL_BUTTON_RIGHT:
-					mouseRightPressed = true;
-					break;
-			}
-			break;
-		}
-		case SDL_MOUSEMOTION: {
-			
-			SDL_GetMouseState(&mouseX, &mouseY);
-			//CCFG::getMM()->getConsole()->print("x:" + std::to_string(mouseX));
-			//CCFG::getMM()->getConsole()->print("y:" + std::to_string(mouseY));
-			break;
-		}
-		case SDL_MOUSEBUTTONUP: {
-			switch (mainEvent->button.button) {
-				case SDL_BUTTON_LEFT:
-					mouseLeftPressed = false;
-					break;
-				case SDL_BUTTON_RIGHT:
-					mouseRightPressed = false;
-					break;
-			}
-			break;
-		}
-		case SDL_MOUSEWHEEL:
-			if(mainEvent->wheel.timestamp > SDL_GetTicks() - 2) {
-				//CCFG::getMM()->getLE()->mouseWheel(mainEvent->wheel.y);
-			}
-			break;
+	sceTouchPeek(0, &touchV[0], 1);
+	if (touchV[0].reportNum > 0)
+	{
+		mouseLeftPressed = true;
+
+		mouseX = touchV[0].report[0].x/2;
+		mouseY = touchV[0].report[0].y/2;
+	}
+	else
+	{
+		mouseLeftPressed = false;
 	}
 }
 
