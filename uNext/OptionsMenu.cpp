@@ -4,37 +4,39 @@
 
 /* ******************************************** */
 
+const int halfVitaHeight = (544-448) / 2;
+
 OptionsMenu::OptionsMenu(void) {
 	rRect.x = 58;
-	rRect.y = 48;
+	rRect.y = 48 + halfVitaHeight;
 	rRect.w = 403;
 	rRect.h = 324;
 
-	this->lMO.push_back(new MenuOption("VOLUME", 73, 65));
-	this->lMO.push_back(new MenuOption("LEFT", 73, 89));
-	this->lMO.push_back(new MenuOption("DOWN", 73, 113));
-	this->lMO.push_back(new MenuOption("RIGHT", 73, 137));
-	this->lMO.push_back(new MenuOption("JUMP", 73, 161));
-	this->lMO.push_back(new MenuOption("RUN", 73, 185));
-	this->lMO.push_back(new MenuOption("CAN MOVE BACKWARD", 73, 209));
-	this->lMO.push_back(new MenuOption("MAIN MENU", 73, 257));
+	this->lMO.push_back(new MenuOption("VOLUME", 73, 65 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("LEFT", 73, 89 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("DOWN", 73, 113 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("RIGHT", 73, 137 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("JUMP", 73, 161 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("RUN", 73, 185 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("CAN MOVE BACKWARD", 73, 209 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("MAIN MENU", 73, 257 + halfVitaHeight));
 
 	this->numOfMenuOptions = lMO.size();
 
 	this->inSetKey = this->resetSetKey = false;
 
 	rSetKeyRect.x = 75;
-	rSetKeyRect.y = 284;
+	rSetKeyRect.y = 284 + halfVitaHeight;
 	rSetKeyRect.w = 369;
 	rSetKeyRect.h = 71;
 
 	rVolumeBG.x = 185;
-	rVolumeBG.y = 65;
+	rVolumeBG.y = 65 + halfVitaHeight;
 	rVolumeBG.h = 16;
 	rVolumeBG.w = 200;
 
 	rVolume.x = 185;
-	rVolume.y = 65;
+	rVolume.y = 65 + halfVitaHeight;
 	rVolume.h = 16;
 	rVolume.w = 100;
 
@@ -91,13 +93,13 @@ void OptionsMenu::Draw(SDL_Renderer* rR) {
 		SDL_RenderDrawRect(rR, &rVolumeBG);
 	}
 
-	CCFG::getText()->Draw(rR, "LEFT"/*CCFG::getKeyString(CCFG::keyIDA)*/, 185, 89, 16, activeMenuOption == 1 ? 255 : 90, activeMenuOption == 1 ? 255 : 90, activeMenuOption == 1 ? 255 : 90);
-	CCFG::getText()->Draw(rR, "DOWN"/*CCFG::getKeyString(CCFG::keyIDS)*/, 185, 113, 16, activeMenuOption == 2 ? 255 : 90, activeMenuOption == 2 ? 255 : 90, activeMenuOption == 2 ? 255 : 90);
-	CCFG::getText()->Draw(rR, "RIGHT"/*CCFG::getKeyString(CCFG::keyIDD)*/, 185, 137, 16, activeMenuOption == 3 ? 255 : 90, activeMenuOption == 3 ? 255 : 90, activeMenuOption == 3 ? 255 : 90);
-	CCFG::getText()->Draw(rR, "CROSS"/*CCFG::getKeyString(CCFG::keyIDSpace)*/, 185, 161, 16, activeMenuOption == 4 ? 255 : 90, activeMenuOption == 4 ? 255 : 90, activeMenuOption == 4 ? 255 : 90);
-	CCFG::getText()->Draw(rR, "SQUARE"/*CCFG::getKeyString(CCFG::keyIDShift)*/, 185, 185, 16, activeMenuOption == 5 ? 255 : 90, activeMenuOption == 5 ? 255 : 90, activeMenuOption == 5 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "LEFT"/*CCFG::getKeyString(CCFG::keyIDA)*/, 185, 89 + halfVitaHeight, 16, activeMenuOption == 1 ? 255 : 90, activeMenuOption == 1 ? 255 : 90, activeMenuOption == 1 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "DOWN"/*CCFG::getKeyString(CCFG::keyIDS)*/, 185, 113 + halfVitaHeight, 16, activeMenuOption == 2 ? 255 : 90, activeMenuOption == 2 ? 255 : 90, activeMenuOption == 2 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "RIGHT"/*CCFG::getKeyString(CCFG::keyIDD)*/, 185, 137 + halfVitaHeight, 16, activeMenuOption == 3 ? 255 : 90, activeMenuOption == 3 ? 255 : 90, activeMenuOption == 3 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "CROSS"/*CCFG::getKeyString(CCFG::keyIDSpace)*/, 185, 161 + halfVitaHeight, 16, activeMenuOption == 4 ? 255 : 90, activeMenuOption == 4 ? 255 : 90, activeMenuOption == 4 ? 255 : 90);
+	CCFG::getText()->Draw(rR, "SQUARE"/*CCFG::getKeyString(CCFG::keyIDShift)*/, 185, 185 + halfVitaHeight, 16, activeMenuOption == 5 ? 255 : 90, activeMenuOption == 5 ? 255 : 90, activeMenuOption == 5 ? 255 : 90);
 
-	CCFG::getText()->Draw(rR, CCFG::canMoveBackward ? "TRUE" : "FALSE", 357, 209, 16, activeMenuOption == 6 ? 255 : 90, activeMenuOption == 6 ? 255 : 90, activeMenuOption == 6 ? 255 : 90);
+	CCFG::getText()->Draw(rR, CCFG::canMoveBackward ? "TRUE" : "FALSE", 357, 209 + halfVitaHeight, 16, activeMenuOption == 6 ? 255 : 90, activeMenuOption == 6 ? 255 : 90, activeMenuOption == 6 ? 255 : 90);
 
 	if(inSetKey) {
 		SDL_SetRenderDrawColor(rR, 20, 20, 20, 245);

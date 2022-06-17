@@ -11,7 +11,7 @@ Map::Map(void) {
 }
 
 Map::Map(SDL_Renderer* rR) {
-	oPlayer = new Player(rR, 84, 368);
+	oPlayer = new Player(rR, 84, 368 + (544-448));
 
 	this->currentLevelID = 0;
 
@@ -425,39 +425,44 @@ void Map::DrawMinions(SDL_Renderer* rR) {
 }
 
 void Map::DrawGameLayout(SDL_Renderer* rR) {
-	CCFG::getText()->Draw(rR, "MARIO", 54, 16);
+	const int x0_offset = 0;
+	const int x1_offset = 60;
+	const int x2_offset = 120;
+	const int x3_offset = 180;
+
+	CCFG::getText()->Draw(rR, "MARIO", 54 + x0_offset, 16);
 
 	if(oPlayer->getScore() < 100) {
-		CCFG::getText()->Draw(rR, "00000" + std::to_string(oPlayer->getScore()), 54, 32);
+		CCFG::getText()->Draw(rR, "00000" + std::to_string(oPlayer->getScore()), 54 + x0_offset, 32);
 	} else if(oPlayer->getScore() < 1000) {
-		CCFG::getText()->Draw(rR, "000" + std::to_string(oPlayer->getScore()), 54, 32);
+		CCFG::getText()->Draw(rR, "000" + std::to_string(oPlayer->getScore()), 54 + x0_offset, 32);
 	} else if(oPlayer->getScore() < 10000) {
-		CCFG::getText()->Draw(rR, "00" + std::to_string(oPlayer->getScore()), 54, 32);
+		CCFG::getText()->Draw(rR, "00" + std::to_string(oPlayer->getScore()), 54 + x0_offset, 32);
 	} else if(oPlayer->getScore() < 100000) {
-		CCFG::getText()->Draw(rR, "0" + std::to_string(oPlayer->getScore()), 54, 32);
+		CCFG::getText()->Draw(rR, "0" + std::to_string(oPlayer->getScore()), 54 + x0_offset, 32);
 	} else {
-		CCFG::getText()->Draw(rR, std::to_string(oPlayer->getScore()), 54, 32);
+		CCFG::getText()->Draw(rR, std::to_string(oPlayer->getScore()), 54 + x0_offset, 32);
 	}
 
-	CCFG::getText()->Draw(rR, "WORLD", 462, 16);
-	CCFG::getText()->Draw(rR, getLevelName(), 480, 32);
+	CCFG::getText()->Draw(rR, "WORLD", 462 + x2_offset, 16);
+	CCFG::getText()->Draw(rR, getLevelName(), 480 + x2_offset, 32);
 
 	if(iLevelType != 1) {
-		vBlock[2]->Draw(rR, 268, 32);
+		vBlock[2]->Draw(rR, 268 + x1_offset, 32);
 	} else {
-		vBlock[57]->Draw(rR, 268, 32);
+		vBlock[57]->Draw(rR, 268 + x1_offset, 32);
 	}
-	CCFG::getText()->Draw(rR, "y", 286, 32);
-	CCFG::getText()->Draw(rR, (oPlayer->getCoins() < 10 ? "0" : "") + std::to_string(oPlayer->getCoins()), 302, 32);
+	CCFG::getText()->Draw(rR, "y", 286 + x1_offset, 32);
+	CCFG::getText()->Draw(rR, (oPlayer->getCoins() < 10 ? "0" : "") + std::to_string(oPlayer->getCoins()), 302 + x1_offset, 32);
 
-	CCFG::getText()->Draw(rR, "TIME", 672, 16);
+	CCFG::getText()->Draw(rR, "TIME", 672 + x3_offset, 16);
 	if(CCFG::getMM()->getViewID() == CCFG::getMM()->eGame) {
 		if(iMapTime > 100) {
-			CCFG::getText()->Draw(rR, std::to_string(iMapTime), 680, 32);
+			CCFG::getText()->Draw(rR, std::to_string(iMapTime), 680 + x3_offset, 32);
 		} else if(iMapTime > 10) {
-			CCFG::getText()->Draw(rR, "0" + std::to_string(iMapTime), 680, 32);
+			CCFG::getText()->Draw(rR, "0" + std::to_string(iMapTime), 680 + x3_offset, 32);
 		} else {
-			CCFG::getText()->Draw(rR, "00" + std::to_string(iMapTime), 680, 32);
+			CCFG::getText()->Draw(rR, "00" + std::to_string(iMapTime), 680 + x3_offset, 32);
 		}
 	}
 }
@@ -3604,17 +3609,17 @@ int Map::getSpawnPointYPos(int iID) {
 		case 1:
 			switch(iID) {
 				case 0:
-					return 64;
+					return 64 + (544-448); //+vita height
 			}
 		case 5: case 25:
 			switch(iID) {
 				case 0:
-					return 64;
+					return 64 + (544-448); //+vita height
 				case 1:
 					return CCFG::GAME_HEIGHT - 48 - oPlayer->getHitBoxY();;
 			}
 		case 3: case 7: case 11: case 15: case 19: case 23: case 27: case 31:
-			return 150;
+			return 150 + (544-448); //+vita height
 	}
 
 	return CCFG::GAME_HEIGHT - 48 - oPlayer->getHitBoxY();
@@ -8676,6 +8681,8 @@ void Map::pipeUse() {
 }
 
 void Map::EndUse() {
+	const int vitaHeight = 544-448;
+
 	inEvent = true;
 
 	oEvent->resetData();
@@ -8779,7 +8786,7 @@ void Map::EndUse() {
 
 			oEvent->newMapXPos = 0;
 			oEvent->newPlayerXPos = 84;
-			oEvent->newPlayerYPos = 150;
+			oEvent->newPlayerYPos = 150 + vitaHeight;
 			oEvent->newMoveMap = true;
 
 			oPlayer->setMoveDirection(true);
@@ -8861,7 +8868,7 @@ void Map::EndUse() {
 
 			oEvent->newMapXPos = 0;
 			oEvent->newPlayerXPos = 84;
-			oEvent->newPlayerYPos = 150;
+			oEvent->newPlayerYPos = 150 + vitaHeight;
 			oEvent->newMoveMap = true;
 
 			oPlayer->setMoveDirection(true);
@@ -8935,7 +8942,7 @@ void Map::EndUse() {
 
 			oEvent->newMapXPos = 0;
 			oEvent->newPlayerXPos = 84;
-			oEvent->newPlayerYPos = 150;
+			oEvent->newPlayerYPos = 150 + vitaHeight;
 			oEvent->newMoveMap = true;
 
 			oEvent->vOLDDir.push_back(oEvent->eRIGHT);
@@ -9009,7 +9016,7 @@ void Map::EndUse() {
 
 			oEvent->newMapXPos = 0;
 			oEvent->newPlayerXPos = 84;
-			oEvent->newPlayerYPos = 150;
+			oEvent->newPlayerYPos = 150 + vitaHeight;
 			oEvent->newMoveMap = true;
 
 			oEvent->vOLDDir.push_back(oEvent->eRIGHT);
@@ -9086,7 +9093,7 @@ void Map::EndUse() {
 
 			oEvent->newMapXPos = 0;
 			oEvent->newPlayerXPos = 84;
-			oEvent->newPlayerYPos = 150;
+			oEvent->newPlayerYPos = 150 + vitaHeight;
 			oEvent->newMoveMap = true;
 
 			oEvent->vOLDDir.push_back(oEvent->eRIGHT);
@@ -9173,7 +9180,7 @@ void Map::EndUse() {
 
 			oEvent->newMapXPos = 0;
 			oEvent->newPlayerXPos = 84;
-			oEvent->newPlayerYPos = 150;
+			oEvent->newPlayerYPos = 150 + vitaHeight;
 			oEvent->newMoveMap = true;
 
 			oEvent->vOLDDir.push_back(oEvent->eRIGHT);
@@ -9255,7 +9262,7 @@ void Map::EndUse() {
 
 			oEvent->newMapXPos = 0;
 			oEvent->newPlayerXPos = 84;
-			oEvent->newPlayerYPos = 150;
+			oEvent->newPlayerYPos = 150 + vitaHeight;
 			oEvent->newMoveMap = true;
 
 			oPlayer->setMoveDirection(true);
@@ -9331,7 +9338,7 @@ void Map::EndUse() {
 
 			oEvent->newMapXPos = 0;
 			oEvent->newPlayerXPos = 84;
-			oEvent->newPlayerYPos = 150;
+			oEvent->newPlayerYPos = 150 + vitaHeight;
 			oEvent->newMoveMap = true;
 
 			oPlayer->setMoveDirection(true);
@@ -10009,7 +10016,7 @@ void Map::structEnd(int X, int Y, int iHeight) {
 		lMap[X][Y + i]->setBlockID(iLevelType == 4 ? 123 : 40);
 	}
 
-	oFlag = new Flag(X*32 - 16, Y + iHeight + 72);
+	oFlag = new Flag(X*32 - 16, Y + iHeight + 72 + (544-448));
 
 	lMap[X][Y + iHeight]->setBlockID(iLevelType == 4 ? 124 : 41);
 

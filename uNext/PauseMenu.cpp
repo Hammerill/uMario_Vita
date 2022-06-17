@@ -6,15 +6,15 @@
 
 PauseMenu::PauseMenu(void) {
 	rPause.x = 220 + 80; //+vita width/2
-	rPause.y = 140;
+	rPause.y = 140 + (544-448)/2; //+vita height/2
 	rPause.w = 360;
 	rPause.h = 142;
 
-	this->lMO.push_back(new MenuOption("RESUME", 0, 156));
-	this->lMO.push_back(new MenuOption("OPTIONS", 0, 180));
+	this->lMO.push_back(new MenuOption("RESUME", 0, 156 + (544-448)/2));
+	this->lMO.push_back(new MenuOption("OPTIONS", 0, 180 + (544-448)/2));
 
-	this->lMO.push_back(new MenuOption("QUIT TO MENU", 0, 228));
-	this->lMO.push_back(new MenuOption("QUIT TO DESKTOP", 0, 252));
+	this->lMO.push_back(new MenuOption("QUIT TO MENU", 0, 228 + (544-448)/2));
+	this->lMO.push_back(new MenuOption("QUIT TO LIVEAREA", 0, 252 + (544-448)/2));
 
 	this->numOfMenuOptions = lMO.size();
 }

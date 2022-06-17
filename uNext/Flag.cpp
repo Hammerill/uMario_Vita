@@ -7,7 +7,7 @@ Flag::Flag(int iXPos, int iYPos) {
 	this->iXPos = iXPos;
 	this->iYPos = iYPos;
 
-	this->iYTextPos = CCFG::GAME_HEIGHT - 3*32 - (544-488);//-vita height
+	this->iYTextPos = CCFG::GAME_HEIGHT - 3*32;
 	this->iPoints = -1;
 
 	this->iBlockID = CCore::getMap()->getLevelType() == 4 || CCore::getMap()->getLevelType() == 3 ? 168 : 42;
