@@ -33,19 +33,11 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 	SDL2_mixer
 	SDL2
 
-	stdc++
-	webp
-	pthread
-	png16
-	freetype
 	vorbisfile
 	vorbis
 	ogg
-	jpeg
-	z
-	m
-	modplug
 	mikmod
+	modplug
 	mpg123
 	FLAC
 
