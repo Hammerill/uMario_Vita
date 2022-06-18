@@ -38,3 +38,10 @@ CMakeCache.txt
 uMario*
 .vscode
 Makefile
+
+# FastCMake
+FastCMake/CMakeFiles
+FastCMake/cmake_install.cmake
+FastCMake/CMakeCache.txt
+FastCMake/uMario*
+FastCMake/Makefile

@@ -1,6 +1,8 @@
+# This file used to faster compile and update game, if you already have asset files (you have to manually copy them to ux0:app/HMRL00002)
+
 cmake_minimum_required(VERSION 2.82)
 
-file(GLOB_RECURSE uMario_SOURCES "uNext/*.cpp")
+file(GLOB_RECURSE uMario_SOURCES "../uNext/*.cpp")
 add_executable(${CMAKE_PROJECT_NAME} ${uMario_SOURCES})
 
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -59,5 +61,5 @@ vita_create_vpk(${CMAKE_PROJECT_NAME}.vpk ${VITA_TITLEID} ${CMAKE_PROJECT_NAME}.
   VERSION ${VITA_VERSION}
   NAME ${VITA_APPNAME}
 
-  FILE uNext/files files
+#   FILE uNext/files files 
 )

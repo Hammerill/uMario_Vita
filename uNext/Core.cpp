@@ -30,6 +30,9 @@ bool CCore::keyDPressed = false;
 
 SceTouchData touchV[SCE_TOUCH_PORT_MAX_NUM];
 
+const int stickDeadZone = 50; //maybe I'll add this setting to options menu later
+const int stickCenter = 128;
+
 CCore::CCore(void) {
 	this->quitGame = false;
 	this->iFPS = 0;
@@ -38,7 +41,7 @@ CCore::CCore(void) {
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO);
 	
-	window = SDL_CreateWindow("uMario port by Hammerill", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, CCFG::GAME_WIDTH, CCFG::GAME_HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("uMario Vita port V1.00 by Hammerill", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, CCFG::GAME_WIDTH, CCFG::GAME_HEIGHT, SDL_WINDOW_SHOWN);
 
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
 	sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
@@ -52,15 +55,15 @@ CCore::CCore(void) {
 	rR = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	// ----- ICO
-	std::string fileName = "files/images/ico.bmp";
-	SDL_Surface* loadedSurface = SDL_LoadBMP(fileName.c_str());
-	SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 0, 255));
+	// std::string fileName = "files/images/ico.bmp";
+	// SDL_Surface* loadedSurface = SDL_LoadBMP(fileName.c_str());
+	// SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 0, 255));
 
-	SDL_SetWindowIcon(window, loadedSurface);
-	SDL_FreeSurface(loadedSurface);
+	// SDL_SetWindowIcon(window, loadedSurface);
+	// SDL_FreeSurface(loadedSurface);
+	// ----- ICO
 
 	mainEvent = new SDL_Event();
-	// ----- ICO
 	
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	
@@ -152,19 +155,25 @@ void CCore::InputMenu() {
 							SCE_CTRL_SELECT | 
 							SCE_CTRL_CIRCLE | 
 							SCE_CTRL_LEFT | 
-							SCE_CTRL_RIGHT))) 
+							SCE_CTRL_RIGHT
+						) || (
+							ctrl.lx > stickCenter + stickDeadZone ||
+							ctrl.lx < stickCenter - stickDeadZone ||
+							ctrl.ly > stickCenter + stickDeadZone ||
+							ctrl.ly < stickCenter - stickDeadZone
+						))) 
 	{
 		keyMenuPressed = false;
 	}
 
-	if (ctrl.buttons & SCE_CTRL_DOWN)
+	if (ctrl.buttons & SCE_CTRL_DOWN || ctrl.ly > stickCenter + stickDeadZone)
 	{
 		if(!keyMenuPressed) {
 			CCFG::getMM()->keyPressed(2);
 			keyMenuPressed = true;
 		}
 	}
-	if (ctrl.buttons & SCE_CTRL_UP)
+	if (ctrl.buttons & SCE_CTRL_UP || ctrl.ly < stickCenter - stickDeadZone)
 	{
 		if(!keyMenuPressed) {
 			CCFG::getMM()->keyPressed(0);
@@ -185,14 +194,14 @@ void CCore::InputMenu() {
 			keyMenuPressed = true;
 		}
 	}
-	if (ctrl.buttons & SCE_CTRL_LEFT)
+	if (ctrl.buttons & SCE_CTRL_LEFT || ctrl.lx < stickCenter - stickDeadZone)
 	{
 		if(!keyMenuPressed) {
 			CCFG::getMM()->keyPressed(3);
 			keyMenuPressed = true;
 		}
 	}
-	if (ctrl.buttons & SCE_CTRL_RIGHT)
+	if (ctrl.buttons & SCE_CTRL_RIGHT || ctrl.lx > stickCenter + stickDeadZone)
 	{
 		if(!keyMenuPressed) {
 			CCFG::getMM()->keyPressed(1);
@@ -216,7 +225,7 @@ void CCore::InputPlayer() {
 		}
 	}
 
-	if (ctrl.buttons & SCE_CTRL_RIGHT)
+	if (ctrl.buttons & SCE_CTRL_RIGHT || ctrl.lx > stickCenter + stickDeadZone)
 	{
 		keyDPressed = true;
 		if (!keyAPressed) firstDir = true;
@@ -227,7 +236,7 @@ void CCore::InputPlayer() {
 		if (firstDir) firstDir = false;
 	}
 
-	if (ctrl.buttons & SCE_CTRL_DOWN)
+	if (ctrl.buttons & SCE_CTRL_DOWN || ctrl.ly > stickCenter + stickDeadZone)
 	{
 		if(!keyS)
 		{
@@ -241,7 +250,7 @@ void CCore::InputPlayer() {
 		keyS = false;
 	}
 
-	if (ctrl.buttons & SCE_CTRL_LEFT)
+	if (ctrl.buttons & SCE_CTRL_LEFT || ctrl.lx < stickCenter - stickDeadZone)
 	{
 		keyAPressed = true;
 		if (!firstDir) firstDir = false;
