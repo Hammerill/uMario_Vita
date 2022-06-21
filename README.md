@@ -1,4 +1,6 @@
 # uMario Vita
+<p align="center"><img src="./screenshots/main-menu.jpg"></p>
+
 Another uMario port for PSVita.
 
 ## Controls
