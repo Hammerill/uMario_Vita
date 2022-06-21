@@ -6,6 +6,8 @@
 
 /* ******************************************** */
 
+const int vitaHeight = 544 - 448;
+
 Map::Map(void) {
 
 }
@@ -2459,35 +2461,36 @@ std::string Map::getLevelName() {
 	return "" + std::to_string(1 + currentLevelID/4) + "-" + std::to_string(currentLevelID%4 + 1);
 }
 
+//Ok, let's start this bo-o-o-oring work.....
 void Map::loadMinionsLVL_1_1() {
 	clearMinions();
 
-	addGoombas(704, 368, true);
+	addGoombas(704, 368 + vitaHeight, true);
 
-	addGoombas(1280, 368, true);
+	addGoombas(1280, 368 + vitaHeight, true);
 
-	addGoombas(1632, 368, true);
-	addGoombas(1680, 368, true);
+	addGoombas(1632, 368 + vitaHeight, true);
+	addGoombas(1680, 368 + vitaHeight, true);
 
-	addGoombas(2560, 112, true);
-	addGoombas(2624, 112, true);
+	addGoombas(2560, 112 + vitaHeight, true);
+	addGoombas(2624, 112 + vitaHeight, true);
 
-	addGoombas(3104, 368, true);
-	addGoombas(3152, 368, true);
+	addGoombas(3104, 368 + vitaHeight, true);
+	addGoombas(3152, 368 + vitaHeight, true);
 
-	addKoppa(107*32, 368, 1, true);
+	addKoppa(107*32, 368 + vitaHeight, 1, true);
 
-	addGoombas(3648, 368, true);
-	addGoombas(3696, 368, true);
+	addGoombas(3648, 368 + vitaHeight, true);
+	addGoombas(3696, 368 + vitaHeight, true);
 
-	addGoombas(3968, 368, true);
-	addGoombas(4016, 368, true);
+	addGoombas(3968, 368 + vitaHeight, true);
+	addGoombas(4016, 368 + vitaHeight, true);
 
-	addGoombas(4096, 368, true);
-	addGoombas(4144, 368, true);
+	addGoombas(4096, 368 + vitaHeight, true);
+	addGoombas(4144, 368 + vitaHeight, true);
 
-	addGoombas(5568, 368, true);
-	addGoombas(5612, 368, true);
+	addGoombas(5568, 368 + vitaHeight, true);
+	addGoombas(5612, 368 + vitaHeight, true);
 }
 
 void Map::loadMinionsLVL_1_2() {
@@ -2495,32 +2498,32 @@ void Map::loadMinionsLVL_1_2() {
 
 	this->iLevelType = 1;
 
-	addGoombas(16*32, 368, true);
-	addGoombas(17*32 + 8, 368 - 32, true);
+	addGoombas(16*32, 368 + vitaHeight, true);
+	addGoombas(17*32 + 8, 368 - 32 + vitaHeight, true);
 
-	addGoombas(29*32, 368, true);
+	addGoombas(29*32, 368 + vitaHeight, true);
 
-	addKoppa(44*32, 368, 1, true);
-	addKoppa(45*32 + 16, 368, 1, true);
+	addKoppa(44*32, 368 + vitaHeight, 1, true);
+	addKoppa(45*32 + 16, 368 + vitaHeight, 1, true);
 
-	addKoppa(59*32, 368, 1, true);
+	addKoppa(59*32, 368 + vitaHeight, 1, true);
 
-	addGoombas(62*32, 368, true);
-	addGoombas(64*32, 368, true);
+	addGoombas(62*32, 368 + vitaHeight, true);
+	addGoombas(64*32, 368 + vitaHeight, true);
 
-	addGoombas(73*32, 368 - 8*32, true);
+	addGoombas(73*32, 368 - 8*32 + vitaHeight, true);
 
-	addGoombas(76*32, 368 - 4*32, true);
-	addGoombas(77*32 + 16, 368 - 4*32, true);
+	addGoombas(76*32, 368 - 4*32 + vitaHeight, true);
+	addGoombas(77*32 + 16, 368 - 4*32 + vitaHeight, true);
 
-	addGoombas(99*32, 368, true);
-	addGoombas(100*32 + 16, 368, true);
-	addGoombas(102*32, 368, true);
+	addGoombas(99*32, 368 + vitaHeight, true);
+	addGoombas(100*32 + 16, 368 + vitaHeight, true);
+	addGoombas(102*32, 368 + vitaHeight, true);
 
-	addGoombas(113*32, 368, true);
+	addGoombas(113*32, 368 + vitaHeight, true);
 
-	addGoombas(135*32, 368 - 3*32, true);
-	addGoombas(136*32 + 16, 368 - 4*32, true);
+	addGoombas(135*32, 368 - 3*32 + vitaHeight, true);
+	addGoombas(136*32 + 16, 368 - 4*32 + vitaHeight, true);
 
 	this->iLevelType = 3;
 
@@ -2575,7 +2578,7 @@ void Map::loadMinionsLVL_1_4() {
 void Map::loadMinionsLVL_2_1() {
 	clearMinions();
 
-	addSpring(188*32, 336);
+	addSpring(188*32, 336 + vitaHeight);
 
 	addGoombas(24*32, CCFG::GAME_HEIGHT - 16 - 7*32, true);
 
@@ -2660,7 +2663,7 @@ void Map::loadMinionsLVL_2_2() {
 void Map::loadMinionsLVL_2_3() {
 	clearMinions();
 
-	addCheepSpawner(5*32, 200*32);
+	addCheepSpawner(5*32, 200*32 + vitaHeight);
 }
 
 void Map::loadMinionsLVL_2_4() {
@@ -2677,14 +2680,14 @@ void Map::loadMinionsLVL_2_4() {
 	addFireBall(82*32, CCFG::GAME_HEIGHT - 16 - 8*32, 6, rand()%360, true);
 	addFireBall(92*32, CCFG::GAME_HEIGHT - 16 - 4*32, 6, rand()%360, false);
 
-	addUpFire(16*32 + 4, 9*32);
-	addUpFire(30*32, 9*32);
+	addUpFire(16*32 + 4, 9*32 + vitaHeight);
+	addUpFire(30*32, 9*32 + vitaHeight);
 }
 
 void Map::loadMinionsLVL_3_1() {
 	clearMinions();
 
-	addSpring(126*32, 336);
+	addSpring(126*32, 336 + vitaHeight);
 
 	addGoombas(37*32, CCFG::GAME_HEIGHT - 16 - 2*32, true);
 	addGoombas(53*32, CCFG::GAME_HEIGHT - 16 - 2*32, true);
@@ -2803,12 +2806,12 @@ void Map::loadMinionsLVL_3_4() {
 	addFireBall(80*32, CCFG::GAME_HEIGHT - 16 - 3*32, 6, rand()%360, true);
 	addFireBall(80*32, CCFG::GAME_HEIGHT - 16 - 9*32, 6, rand()%360, false);
 
-	addUpFire(16*32, 9*32);
-	addUpFire(26*32, 9*32);
-	addUpFire(88*32, 9*32);
-	addUpFire(97*32, 9*32);
-	addUpFire(103*32, 9*32);
-	addUpFire(109*32, 9*32);
+	addUpFire(16*32, 9*32 + vitaHeight);
+	addUpFire(26*32, 9*32 + vitaHeight);
+	addUpFire(88*32, 9*32 + vitaHeight);
+	addUpFire(97*32, 9*32 + vitaHeight);
+	addUpFire(103*32, 9*32 + vitaHeight);
+	addUpFire(109*32, 9*32 + vitaHeight);
 }
 
 void Map::loadMinionsLVL_4_1() {
@@ -2886,7 +2889,7 @@ void Map::loadMinionsLVL_4_4() {
 	addFireBall(122*32, CCFG::GAME_HEIGHT - 16 - 4*32, 6, rand()%360, true);
 	addFireBall(162*32, CCFG::GAME_HEIGHT - 16 - 4*32, 6, rand()%360, true);
 
-	addUpFire(165*32, 9*32);
+	addUpFire(165*32, 9*32 + vitaHeight);
 
 	this->iLevelType = 1;
 
@@ -3025,12 +3028,12 @@ void Map::loadMinionsLVL_5_4() {
 
 	addFireBall(103*32, CCFG::GAME_HEIGHT - 16 - 3*32, 6, rand()%360, true);
 
-	addUpFire(16*32 + 4, 9*32);
-	addUpFire(30*32, 9*32);
+	addUpFire(16*32 + 4, 9*32 + vitaHeight);
+	addUpFire(30*32, 9*32 + vitaHeight);
 
-	addUpFire(109*32, 9*32);
-	addUpFire(113*32, 9*32);
-	addUpFire(131*32, 9*32);
+	addUpFire(109*32, 9*32 + vitaHeight);
+	addUpFire(113*32, 9*32 + vitaHeight);
+	addUpFire(131*32, 9*32 + vitaHeight);
 }
 
 void Map::loadMinionsLVL_6_1() {
@@ -3102,7 +3105,7 @@ void Map::loadMinionsLVL_6_2() {
 void Map::loadMinionsLVL_6_3() {
 	clearMinions();
 
-	addBulletBillSpawner(174, 3, 1);
+	addBulletBillSpawner(174, 3 + vitaHeight, 1);
 }
 
 void Map::loadMinionsLVL_6_4() {
@@ -3125,9 +3128,9 @@ void Map::loadMinionsLVL_6_4() {
 	addFireBall(80*32, CCFG::GAME_HEIGHT - 16 - 10*32, 6, rand()%360, false);
 	addFireBall(92*32, CCFG::GAME_HEIGHT - 16 - 5*32, 6, rand()%360, true);
 	
-	addUpFire(27*32, 9*32);
-	addUpFire(33*32, 9*32);
-	addUpFire(131*32, 9*32);
+	addUpFire(27*32, 9*32 + vitaHeight);
+	addUpFire(33*32, 9*32 + vitaHeight);
+	addUpFire(131*32, 9*32 + vitaHeight);
 }
 
 
@@ -3200,7 +3203,7 @@ void Map::loadMinionsLVL_7_2() {
 void Map::loadMinionsLVL_7_3() {
 	clearMinions();
 
-	addCheepSpawner(5*32, 200*32);
+	addCheepSpawner(5*32, 200*32 + vitaHeight);
 
 	addKoppa(52*32, CCFG::GAME_HEIGHT - 16 - 6*32, 0, true);
 	addKoppa(140*32, CCFG::GAME_HEIGHT - 16 - 7*32, 0, true);
@@ -3218,8 +3221,8 @@ void Map::loadMinionsLVL_7_3() {
 void Map::loadMinionsLVL_7_4() {
 	clearMinions();
 
-	addUpFire(20*32, 9*32);
-	addUpFire(260*32, 9*32);
+	addUpFire(20*32, 9*32 + vitaHeight);
+	addUpFire(260*32, 9*32 + vitaHeight);
 
 	addFireBall(167*32, CCFG::GAME_HEIGHT - 16 - 7*32, 6, rand()%360, true);
 
@@ -3387,13 +3390,13 @@ void Map::loadMinionsLVL_8_4() {
 
 	this->iLevelType = 3;
 
-	addCheepSpawner(224*32, 237*32);
+	addCheepSpawner(224*32, 237*32 + vitaHeight);
 
 	addBowser(338*32, CCFG::GAME_HEIGHT - 16 - 6*32, true);
 
 	addToad(356*32, CCFG::GAME_HEIGHT - 3*32, true);
 
-	addUpFire(332*32, 9*32);
+	addUpFire(332*32, 9*32 + vitaHeight);
 
 	addFireBall(410*32, CCFG::GAME_HEIGHT - 16 - 7*32, 6, rand()%360, true);
 	addFireBall(421*32, CCFG::GAME_HEIGHT - 16 - 4*32, 6, rand()%360, false);
@@ -3609,17 +3612,17 @@ int Map::getSpawnPointYPos(int iID) {
 		case 1:
 			switch(iID) {
 				case 0:
-					return 64 + (544-448); //+vita height
+					return 64 + vitaHeight;
 			}
 		case 5: case 25:
 			switch(iID) {
 				case 0:
-					return 64 + (544-448); //+vita height
+					return 64 + vitaHeight;
 				case 1:
 					return CCFG::GAME_HEIGHT - 48 - oPlayer->getHitBoxY();;
 			}
 		case 3: case 7: case 11: case 15: case 19: case 23: case 27: case 31:
-			return 150 + (544-448); //+vita height
+			return 150 + vitaHeight;
 	}
 
 	return CCFG::GAME_HEIGHT - 48 - oPlayer->getHitBoxY();
@@ -8681,8 +8684,6 @@ void Map::pipeUse() {
 }
 
 void Map::EndUse() {
-	const int vitaHeight = 544-448;
-
 	inEvent = true;
 
 	oEvent->resetData();

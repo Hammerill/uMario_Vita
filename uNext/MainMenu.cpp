@@ -4,17 +4,19 @@
 
 /* ******************************************** */
 
+const int halfVitaHeight = (540-448) / 2;
+
 MainMenu::MainMenu(void) {
-	this->lMO.push_back(new MenuOption("1 PLAYER GAME", 178, 276));
-	this->lMO.push_back(new MenuOption("OPTIONS", 222, 308));
-	this->lMO.push_back(new MenuOption("ABOUT", 237, 340));
+	this->lMO.push_back(new MenuOption("1 PLAYER GAME", 178, 276 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("OPTIONS", 222, 308 + halfVitaHeight));
+	this->lMO.push_back(new MenuOption("ABOUT", 237, 340 + halfVitaHeight));
 
 	this->numOfMenuOptions = lMO.size();
 
 	this->selectWorld = false;
 
 	rSelectWorld.x = 122;
-	rSelectWorld.y = 280;
+	rSelectWorld.y = 280 + halfVitaHeight;
 	rSelectWorld.w = 306;
 	rSelectWorld.h = 72;
 
@@ -34,7 +36,7 @@ void MainMenu::Update() {
 }
 
 void MainMenu::Draw(SDL_Renderer* rR) {
-	CCFG::getSMBLOGO()->Draw(rR, 80, 48);
+	CCFG::getSMBLOGO()->Draw(rR, 80, 48 + halfVitaHeight);
 	Menu::Draw(rR);
 	CCFG::getText()->Draw(rR, "HTTPS://GITHUB.COM/HAMMERILL", 4, CCFG::GAME_HEIGHT - 4 - 8, 8, 0, 0, 0);
 	CCFG::getText()->Draw(rR, "HTTPS://GITHUB.COM/HAMMERILL", 5, CCFG::GAME_HEIGHT - 5 - 8, 8, 255, 255, 255);

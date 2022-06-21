@@ -16,7 +16,7 @@ endif()
 project(uMario)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
-set(VITA_APPNAME  "uMario")
+set(VITA_APPNAME  "Mario")
 set(VITA_TITLEID  "HMRL00002")
 set(VITA_VERSION  "01.00")
 
@@ -62,4 +62,10 @@ vita_create_vpk(${CMAKE_PROJECT_NAME}.vpk ${VITA_TITLEID} ${CMAKE_PROJECT_NAME}.
   NAME ${VITA_APPNAME}
 
 #   FILE uNext/files files 
+
+	FILE ../sce_sys/icon0.png sce_sys/icon0.png
+	FILE ../sce_sys/pic0.png sce_sys/pic0.png
+	FILE ../sce_sys/livearea/contents/bg.png sce_sys/livearea/contents/bg.png
+	FILE ../sce_sys/livearea/contents/startup.png sce_sys/livearea/contents/startup.png
+	FILE ../sce_sys/livearea/contents/template.xml sce_sys/livearea/contents/template.xml
 )
