@@ -2,7 +2,7 @@
 Another uMario port to PS Vita.
 
 ## Controls
-- D-pad and left stick (last one coming soon) - controls at game and menu.
+- D-pad and left stick - controls at game and menu.
 - Cross - jump at game and accept in menu.
 - Square - run at game.
 - Circle - dismiss at menu.
