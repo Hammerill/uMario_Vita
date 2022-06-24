@@ -4,11 +4,11 @@
 Another uMario port for PSVita.
 
 ## Controls
-- D-pad and left stick - controls at game and menu.
-- Cross - jump at game and accept in menu.
-- Square - run at game.
-- Circle - dismiss at menu.
-- Start and Select - enter menu at game and dismiss at menu.
+- <kbd>D-PAD</kbd> or <kbd>Left stick</kbd> -  controls in game and menu.
+- <kbd>Cross</kbd> - jump in game and accept in menu.
+- <kbd>Square</kbd> - run in game.
+- <kbd>Circle</kbd> - dismiss in menu.
+- <kbd>START</kbd> or <kbd>SELECT</kbd> - enter menu in game and dismiss in menu.
 
 ## Known issues 
 1. Sometimes player becomes invincible and stays like that until restarting game or taking a star.
@@ -19,7 +19,13 @@ Another uMario port for PSVita.
 
 ## Build and run
 1. Install [VITASDK](https://vitasdk.org/).
-2. Clone repo `git clone https://github.com/Hammerill/uMario_Vita && cd uMario_Vita`.
-3. Build `cmake . && make`.
+2. Clone repo:
+  ```
+  git clone https://github.com/Hammerill/uMario_Vita && cd uMario_Vita
+  ```
+3. Build:
+  ```
+  cmake . && make
+  ```
 4. "uMario.vpk" file should appear. Copy this file to your hacked PS Vita and install via VitaShell.
 5. Bubble "Mario" will appear, you can now launch this game.
